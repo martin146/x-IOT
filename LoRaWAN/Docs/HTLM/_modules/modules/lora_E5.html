@@ -1,0 +1,616 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>modules.lora_E5 &#8212; BIOT LoRa E5 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for modules.lora_E5</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">from</span> <span class="nn">machine</span> <span class="kn">import</span> <span class="n">UART</span>
+<span class="kn">from</span> <span class="nn">machine</span> <span class="kn">import</span> <span class="n">Pin</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+
+<div class="viewcode-block" id="LoRaE5"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5">[docs]</a><span class="k">class</span> <span class="nc">LoRaE5</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Construct a LoRaE5 class designed to control LoRa E5 HF module</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rx_pin</span><span class="p">,</span> <span class="n">tx_pin</span><span class="p">,</span> <span class="n">speed</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a LoRaE5 class</span>
+
+<span class="sd">        :param rx_pin: UART Rx pin</span>
+<span class="sd">        :param tx_pin: UART Tx pin</span>
+<span class="sd">        :param speed: UART Baud rate</span>
+<span class="sd">        :param debug: controls the display of UART Tx Rx messages on stdout</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">RX_PIN</span> <span class="o">=</span> <span class="n">rx_pin</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">TX_PIN</span> <span class="o">=</span> <span class="n">tx_pin</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SPEED</span> <span class="o">=</span> <span class="n">speed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DEBUG</span> <span class="o">=</span> <span class="n">debug</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">com</span> <span class="o">=</span> <span class="n">UART</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">baudrate</span><span class="o">=</span><span class="n">speed</span><span class="p">,</span> <span class="n">tx</span><span class="o">=</span><span class="n">Pin</span><span class="p">(</span><span class="n">tx_pin</span><span class="p">),</span> <span class="n">rx</span><span class="o">=</span><span class="n">Pin</span><span class="p">(</span><span class="n">rx_pin</span><span class="p">),</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">timeout_char</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<div class="viewcode-block" id="LoRaE5.send_raw_command"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.send_raw_command">[docs]</a>    <span class="k">def</span> <span class="nf">send_raw_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Send command directly to LoRaWAN module via UART</span>
+
+<span class="sd">        :param command: AT command to transmit</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;TX:</span><span class="se">\n</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">command</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">com</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">command</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span> <span class="o">+</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\r\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LoRaE5.read_data"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.read_data">[docs]</a>    <span class="k">def</span> <span class="nf">read_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">multi</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Read data received from module via UART</span>
+
+<span class="sd">        :param multi: defines if multiple lines will be read</span>
+<span class="sd">        :return: received data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">com</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RX:</span><span class="se">\n</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">msg</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">multi</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">msg</span></div>
+
+<div class="viewcode-block" id="LoRaE5.read_n_times"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.read_n_times">[docs]</a>    <span class="k">def</span> <span class="nf">read_n_times</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">times</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Read from multiple lines responses from UART</span>
+
+<span class="sd">        :param times: number or read repetitions total time defined by the *timeout* and *timeout_char*</span>
+<span class="sd">        times from *UART* object</span>
+<span class="sd">        :return: received data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">times</span><span class="p">):</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">ret</span> <span class="o">=</span> <span class="n">ret</span> <span class="o">+</span> <span class="n">msg</span>
+            <span class="k">if</span> <span class="s1">&#39;Done&#39;</span> <span class="ow">in</span> <span class="n">msg</span><span class="p">:</span>
+                <span class="k">break</span>
+        <span class="k">return</span> <span class="n">ret</span></div>
+
+<div class="viewcode-block" id="LoRaE5.test_at"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.test_at">[docs]</a>    <span class="k">def</span> <span class="nf">test_at</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Used to test if connection of module is OK. This is a dummy command just like other common AT modules</span>
+
+<span class="sd">        :return: received data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.get_id"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.get_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Use to check the ID of the LoRaWAN module</span>
+
+<span class="sd">        :return: module ID</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+ID&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.get_version"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.get_version">[docs]</a>    <span class="k">def</span> <span class="nf">get_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check firmware version</span>
+
+<span class="sd">        :return: FW version</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+VER&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.set_id"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.set_id">[docs]</a>    <span class="k">def</span> <span class="nf">set_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Use to set the ID of the LoRaWAN module</span>
+
+<span class="sd">        :param mode: ID to change DevAddr, DevEui, or AppEui</span>
+<span class="sd">        :param value: ID value</span>
+<span class="sd">        :return: new ID</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;DevAddr&#39;</span><span class="p">,</span> <span class="s1">&#39;DevEui&#39;</span><span class="p">,</span> <span class="s1">&#39;AppEui&#39;</span><span class="p">]:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Invalid parameter&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+ID=</span><span class="si">{}</span><span class="s1">,&quot;</span><span class="si">{}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mode</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep_ms</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.module_reset"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.module_reset">[docs]</a>    <span class="k">def</span> <span class="nf">module_reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Use to reset LoRaWAN module</span>
+
+<span class="sd">        :return: received data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+RESET&#39;</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep_ms</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.send_ascii"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.send_ascii">[docs]</a>    <span class="k">def</span> <span class="nf">send_ascii</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">confirmed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Send LoRaWAN message in ASCII format</span>
+
+<span class="sd">        :param data: data to send</span>
+<span class="sd">        :param confirmed: confirmed/unconfirmed message</span>
+<span class="sd">        :return: received data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">confirmed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+CMSG=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+MSG=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.check_link"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.check_link">[docs]</a>    <span class="k">def</span> <span class="nf">check_link</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Use to send LinkCheckReq mac command to check Link status between modem and server</span>
+
+<span class="sd">        :return: link status</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+MSG&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.send_hex"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.send_hex">[docs]</a>    <span class="k">def</span> <span class="nf">send_hex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">confirmed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Send LoRaWAN message in HEX format</span>
+
+<span class="sd">        :param data: data to send</span>
+<span class="sd">        :param confirmed: confirmed/unconfirmed message</span>
+<span class="sd">        :return: received data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">part</span> <span class="o">=</span> <span class="s1">&#39;MSGHEX&#39;</span>
+        <span class="k">if</span> <span class="n">confirmed</span><span class="p">:</span>
+            <span class="n">part</span> <span class="o">=</span> <span class="s1">&#39;CMSGHEX&#39;</span>
+
+        <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">part</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+</span><span class="si">{}</span><span class="s1">=&quot;</span><span class="si">{}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">part</span><span class="p">,</span> <span class="n">data</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.get_port"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.get_port">[docs]</a>    <span class="k">def</span> <span class="nf">get_port</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get LoRaWAN port used for transmission</span>
+
+<span class="sd">        :return: port</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+PORT=?&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.set_port"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.set_port">[docs]</a>    <span class="k">def</span> <span class="nf">set_port</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set LoRaWAN port</span>
+
+<span class="sd">        :param port: numeric value from 0 to 255</span>
+<span class="sd">        :return: new port</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">port</span> <span class="o">&lt;=</span> <span class="mi">255</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Wrong port number&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+PORT=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">port</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.get_adr"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.get_adr">[docs]</a>    <span class="k">def</span> <span class="nf">get_adr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get status of ADR</span>
+
+<span class="sd">        :return: ADR status</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+ADR=?&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.set_adr"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.set_adr">[docs]</a>    <span class="k">def</span> <span class="nf">set_adr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">enable</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Control ADR functionality</span>
+
+<span class="sd">        :param enable: enable/disable</span>
+<span class="sd">        :return: new ADR status</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+ADR=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;ON&#39;</span> <span class="k">if</span> <span class="n">enable</span> <span class="k">else</span> <span class="s1">&#39;OFF&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.get_dr"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.get_dr">[docs]</a>    <span class="k">def</span> <span class="nf">get_dr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get current data rate</span>
+
+<span class="sd">        :return: data rate</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+DR&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.set_dr"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.set_dr">[docs]</a>    <span class="k">def</span> <span class="nf">set_dr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dr</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set data rate value</span>
+
+<span class="sd">        :param dr: data rate ranging from 0 to 15</span>
+<span class="sd">        :return: new data rate value</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">dr</span> <span class="o">&lt;=</span> <span class="mi">15</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Invalid DataRate&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+DR=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dr</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.set_dr_band"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.set_dr_band">[docs]</a>    <span class="k">def</span> <span class="nf">set_dr_band</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">band</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set data rate scheme for current band (EU868)</span>
+
+<span class="sd">        :param band: frequency band (currently only EU868 supported)</span>
+<span class="sd">        :return: data rate plan</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">band</span> <span class="o">!=</span> <span class="s1">&#39;EU868&#39;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Invalid Band&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+DR=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">band</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.get_band_scheme"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.get_band_scheme">[docs]</a>    <span class="k">def</span> <span class="nf">get_band_scheme</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get data rate scheme for current band (EU868)</span>
+
+<span class="sd">        :return: data rate plan</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+DR=SCHEME&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.get_all_channels"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.get_all_channels">[docs]</a>    <span class="k">def</span> <span class="nf">get_all_channels</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Query channels configuration</span>
+
+<span class="sd">        :return: channels configuration</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+CH&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.get_channel"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.get_channel">[docs]</a>    <span class="k">def</span> <span class="nf">get_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get single channel configuration</span>
+
+<span class="sd">        :param channel: channel value</span>
+<span class="sd">        :return: channel configuration</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+CH=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">channel</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.set_channel"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.set_channel">[docs]</a>    <span class="k">def</span> <span class="nf">set_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">freq</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">drmin</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">drmax</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set channel configuration</span>
+
+<span class="sd">        :param channel: channel value</span>
+<span class="sd">        :param freq: frequency</span>
+<span class="sd">        :param drmin: minimum data rate</span>
+<span class="sd">        :param drmax: maximum data rate</span>
+<span class="sd">        :return: new channel configuration</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">drmin</span> <span class="o">&lt;=</span> <span class="mi">15</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">drmin</span> <span class="o">&gt;</span> <span class="n">drmax</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Invalid DataRate&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">drmax</span> <span class="o">&lt;=</span> <span class="mi">15</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Invalid DataRate&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+CH=&quot;</span><span class="si">{}</span><span class="s1">&quot;,</span><span class="si">{}</span><span class="s1">,</span><span class="si">{}</span><span class="s1">,</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">channel</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">drmin</span><span class="p">,</span> <span class="n">drmax</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.get_enabled_channels"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.get_enabled_channels">[docs]</a>    <span class="k">def</span> <span class="nf">get_enabled_channels</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get list of enabled channels</span>
+
+<span class="sd">        :return: list of active channels</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+CH=NUM&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.enable_channel"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.enable_channel">[docs]</a>    <span class="k">def</span> <span class="nf">enable_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Enable LoRaWAN channel</span>
+
+<span class="sd">        :param channel: channel nuber</span>
+<span class="sd">        :return: channel configuration</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+CH=</span><span class="si">{}</span><span class="s1">,ON&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">channel</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.disable_channel"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.disable_channel">[docs]</a>    <span class="k">def</span> <span class="nf">disable_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Disable LoRaWAN channel</span>
+
+<span class="sd">        :param channel: channel nuber</span>
+<span class="sd">        :return: channel configuration</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+CH=</span><span class="si">{}</span><span class="s1">,OFF&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">channel</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.get_power"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.get_power">[docs]</a>    <span class="k">def</span> <span class="nf">get_power</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get TX power</span>
+
+<span class="sd">        :return: TX power</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+POWER&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.set_power"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.set_power">[docs]</a>    <span class="k">def</span> <span class="nf">set_power</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">power</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set TX power</span>
+
+<span class="sd">        :param power: power value</span>
+<span class="sd">        :return: set TX power</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">power</span> <span class="o">&gt;</span> <span class="mi">14</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Invalid Power Value&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+POWER=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">power</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.get_power_map"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.get_power_map">[docs]</a>    <span class="k">def</span> <span class="nf">get_power_map</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get TX power map</span>
+
+<span class="sd">        :return: power map</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+POWER=TABLE&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.get_rep_limit"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.get_rep_limit">[docs]</a>    <span class="k">def</span> <span class="nf">get_rep_limit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get maximum number of repetitions for unconfirmed messages</span>
+
+<span class="sd">        :return: number of repetitions</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+REPT=&quot;Repeat Times&quot;&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.set_rep_limit"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.set_rep_limit">[docs]</a>    <span class="k">def</span> <span class="nf">set_rep_limit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rep</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set maximum number of repetitions for unconfirmed messages</span>
+
+<span class="sd">        :param rep: number of repetitions</span>
+<span class="sd">        :return: set number of repetitions</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">rep</span> <span class="o">&lt;=</span> <span class="mi">15</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Invalid RepNum&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+REPT=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rep</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.get_ret_limit"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.get_ret_limit">[docs]</a>    <span class="k">def</span> <span class="nf">get_ret_limit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get maximum number of retransmissions for confirmed message</span>
+
+<span class="sd">        :return: number of retransmissions</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+RETRY=&quot;Retry Times&quot;&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.set_ret_limit"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.set_ret_limit">[docs]</a>    <span class="k">def</span> <span class="nf">set_ret_limit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ret</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set maximum number of retransmissions for confirmed message</span>
+
+<span class="sd">        :param ret: number of retransmissions</span>
+<span class="sd">        :return: set number of retransmissions</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">ret</span> <span class="o">&lt;=</span> <span class="mi">254</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Invalid RepNum&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+RETRY=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ret</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.get_rx2"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.get_rx2">[docs]</a>    <span class="k">def</span> <span class="nf">get_rx2</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Query RXWIN2 configuration</span>
+
+<span class="sd">        :return: RXWIN2 configuration</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+RXWIN2&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.set_rx2"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.set_rx2">[docs]</a>    <span class="k">def</span> <span class="nf">set_rx2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">freq</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dr</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set RXWIN2 configuration</span>
+
+<span class="sd">        :param freq: window frequency</span>
+<span class="sd">        :param dr: data rate</span>
+<span class="sd">        :return: RXWIN2 new configuration</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">dr</span> <span class="o">&lt;=</span> <span class="mi">15</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Invalid DataRate&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+RXWIN2=</span><span class="si">{}</span><span class="s1">,DR</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">freq</span><span class="p">,</span> <span class="n">dr</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.set_key"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.set_key">[docs]</a>    <span class="k">def</span> <span class="nf">set_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set encryption keys</span>
+
+<span class="sd">        :param key: type of key (NWKSKEY/APPSKEY/APPKEY)</span>
+<span class="sd">        :param value: key value</span>
+<span class="sd">        :return: newly set key</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;NWKSKEY&#39;</span><span class="p">,</span> <span class="s1">&#39;APPSKEY&#39;</span><span class="p">,</span> <span class="s1">&#39;APPKEY&#39;</span><span class="p">]:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Invalid parameter&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+KEY=</span><span class="si">{}</span><span class="s1">,&quot;</span><span class="si">{}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.factory_reset"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.factory_reset">[docs]</a>    <span class="k">def</span> <span class="nf">factory_reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Do factory reset</span>
+
+<span class="sd">        :return: received data (OK)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+FDEFAULT&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.set_mode"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.set_mode">[docs]</a>    <span class="k">def</span> <span class="nf">set_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set LoRaWAN operational mode</span>
+
+<span class="sd">        :param mode: operational mode (TEST, LWOTAA, LWABP)</span>
+<span class="sd">        :return: set mode</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;TEST&#39;</span><span class="p">,</span> <span class="s1">&#39;LWOTAA&#39;</span><span class="p">,</span> <span class="s1">&#39;LWABP&#39;</span><span class="p">]:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Invalid parameter&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+MODE=&quot;</span><span class="si">{}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mode</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.set_counters"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.set_counters">[docs]</a>    <span class="k">def</span> <span class="nf">set_counters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">up</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">down</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set uplink and downlink counter values</span>
+
+<span class="sd">        :param up: uplink counter value</span>
+<span class="sd">        :param down: downlink counter value</span>
+<span class="sd">        :return: set value for both counters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+LW=ULDL,</span><span class="si">{}</span><span class="s1">,</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">up</span><span class="p">,</span> <span class="n">down</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.get_counters"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.get_counters">[docs]</a>    <span class="k">def</span> <span class="nf">get_counters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get uplink and downlink counter values</span>
+
+<span class="sd">        :return: counters value</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+LW=ULDL&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.set_etsi_duty_cycle"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.set_etsi_duty_cycle">[docs]</a>    <span class="k">def</span> <span class="nf">set_etsi_duty_cycle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">enabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set ETSI defined duty cycle limitation</span>
+
+<span class="sd">        :param enabled: enable/disable</span>
+<span class="sd">        :return: duty cycle value</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+LW=DC, </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;ON&#39;</span> <span class="k">if</span> <span class="n">enabled</span> <span class="k">else</span> <span class="s1">&#39;OFF&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.set_duty_cycle"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.set_duty_cycle">[docs]</a>    <span class="k">def</span> <span class="nf">set_duty_cycle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_dc</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set maximum duty cycle</span>
+
+<span class="sd">        :param max_dc: duty cycle</span>
+<span class="sd">        :return: duty cycle value</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+LW=DC, </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">max_dc</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.get_rx_delay"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.get_rx_delay">[docs]</a>    <span class="k">def</span> <span class="nf">get_rx_delay</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get RX windows delay</span>
+
+<span class="sd">        :return: RX windows delay</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+DELAY&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LoRaE5.set_rx_delay"><a class="viewcode-back" href="../../modules.html#modules.lora_E5.LoRaE5.set_rx_delay">[docs]</a>    <span class="k">def</span> <span class="nf">set_rx_delay</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">delay</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set RX windows delay</span>
+
+<span class="sd">        :param window: RX window (RX1/RX2/JRX1/JRX2)</span>
+<span class="sd">        :param delay: delay in ms</span>
+<span class="sd">        :return: RX windows configuration</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">window</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;RX1&#39;</span><span class="p">,</span> <span class="s1">&#39;RX2&#39;</span><span class="p">,</span> <span class="s1">&#39;JRX1&#39;</span><span class="p">,</span> <span class="s1">&#39;JRX2&#39;</span><span class="p">]:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Invalid parameter&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_raw_command</span><span class="p">(</span><span class="s1">&#39;AT+DELAY=</span><span class="si">{}</span><span class="s1">, </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">delay</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">BIOT LoRa E5</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Modules Package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Martin Stusek.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 6.1.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

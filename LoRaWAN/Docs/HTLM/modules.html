@@ -1,0 +1,693 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Modules Package &#8212; BIOT LoRa E5 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to BIOT LoRa E5’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="modules-package">
+<h1>Modules Package<a class="headerlink" href="#modules-package" title="Permalink to this heading">¶</a></h1>
+<section id="module-modules.but_board">
+<span id="modules-but-board-module"></span><h2>modules.but_board module<a class="headerlink" href="#module-modules.but_board" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-modules.lora_E5">
+<span id="modules-lora-e5-module"></span><h2>modules.lora_E5 module<a class="headerlink" href="#module-modules.lora_E5" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modules.lora_E5.</span></span><span class="sig-name descname"><span class="pre">LoRaE5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rx_pin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tx_pin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Construct a LoRaE5 class designed to control LoRa E5 HF module</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.check_link">
+<span class="sig-name descname"><span class="pre">check_link</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.check_link"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.check_link" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use to send LinkCheckReq mac command to check Link status between modem and server</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>link status</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.disable_channel">
+<span class="sig-name descname"><span class="pre">disable_channel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.disable_channel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.disable_channel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Disable LoRaWAN channel</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>channel</strong> – channel nuber</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>channel configuration</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.enable_channel">
+<span class="sig-name descname"><span class="pre">enable_channel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.enable_channel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.enable_channel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enable LoRaWAN channel</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>channel</strong> – channel nuber</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>channel configuration</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.factory_reset">
+<span class="sig-name descname"><span class="pre">factory_reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.factory_reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.factory_reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Do factory reset</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>received data (OK)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.get_adr">
+<span class="sig-name descname"><span class="pre">get_adr</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.get_adr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.get_adr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get status of ADR</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ADR status</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.get_all_channels">
+<span class="sig-name descname"><span class="pre">get_all_channels</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.get_all_channels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.get_all_channels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Query channels configuration</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>channels configuration</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.get_band_scheme">
+<span class="sig-name descname"><span class="pre">get_band_scheme</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.get_band_scheme"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.get_band_scheme" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get data rate scheme for current band (EU868)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>data rate plan</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.get_channel">
+<span class="sig-name descname"><span class="pre">get_channel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.get_channel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.get_channel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get single channel configuration</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>channel</strong> – channel value</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>channel configuration</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.get_counters">
+<span class="sig-name descname"><span class="pre">get_counters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.get_counters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.get_counters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get uplink and downlink counter values</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>counters value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.get_dr">
+<span class="sig-name descname"><span class="pre">get_dr</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.get_dr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.get_dr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get current data rate</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>data rate</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.get_enabled_channels">
+<span class="sig-name descname"><span class="pre">get_enabled_channels</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.get_enabled_channels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.get_enabled_channels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get list of enabled channels</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of active channels</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.get_id">
+<span class="sig-name descname"><span class="pre">get_id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.get_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.get_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use to check the ID of the LoRaWAN module</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>module ID</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.get_port">
+<span class="sig-name descname"><span class="pre">get_port</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.get_port"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.get_port" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get LoRaWAN port used for transmission</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>port</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.get_power">
+<span class="sig-name descname"><span class="pre">get_power</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.get_power"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.get_power" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get TX power</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>TX power</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.get_power_map">
+<span class="sig-name descname"><span class="pre">get_power_map</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.get_power_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.get_power_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get TX power map</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>power map</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.get_rep_limit">
+<span class="sig-name descname"><span class="pre">get_rep_limit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.get_rep_limit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.get_rep_limit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get maximum number of repetitions for unconfirmed messages</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>number of repetitions</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.get_ret_limit">
+<span class="sig-name descname"><span class="pre">get_ret_limit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.get_ret_limit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.get_ret_limit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get maximum number of retransmissions for confirmed message</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>number of retransmissions</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.get_rx2">
+<span class="sig-name descname"><span class="pre">get_rx2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.get_rx2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.get_rx2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Query RXWIN2 configuration</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>RXWIN2 configuration</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.get_rx_delay">
+<span class="sig-name descname"><span class="pre">get_rx_delay</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.get_rx_delay"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.get_rx_delay" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get RX windows delay</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>RX windows delay</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.get_version">
+<span class="sig-name descname"><span class="pre">get_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.get_version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.get_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check firmware version</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>FW version</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.module_reset">
+<span class="sig-name descname"><span class="pre">module_reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.module_reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.module_reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use to reset LoRaWAN module</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>received data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.read_data">
+<span class="sig-name descname"><span class="pre">read_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">multi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.read_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.read_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read data received from module via UART</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>multi</strong> – defines if multiple lines will be read</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>received data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.read_n_times">
+<span class="sig-name descname"><span class="pre">read_n_times</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">times</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.read_n_times"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.read_n_times" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read from multiple lines responses from UART</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>times</strong> – number or read repetitions total time defined by the <em>timeout</em> and <em>timeout_char</em></p>
+</dd>
+</dl>
+<p>times from <em>UART</em> object
+:return: received data</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.send_ascii">
+<span class="sig-name descname"><span class="pre">send_ascii</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confirmed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.send_ascii"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.send_ascii" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send LoRaWAN message in ASCII format</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – data to send</p></li>
+<li><p><strong>confirmed</strong> – confirmed/unconfirmed message</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>received data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.send_hex">
+<span class="sig-name descname"><span class="pre">send_hex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confirmed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.send_hex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.send_hex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send LoRaWAN message in HEX format</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – data to send</p></li>
+<li><p><strong>confirmed</strong> – confirmed/unconfirmed message</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>received data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.send_raw_command">
+<span class="sig-name descname"><span class="pre">send_raw_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.send_raw_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.send_raw_command" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send command directly to LoRaWAN module via UART</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>command</strong> – AT command to transmit</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.set_adr">
+<span class="sig-name descname"><span class="pre">set_adr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.set_adr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.set_adr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Control ADR functionality</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>enable</strong> – enable/disable</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>new ADR status</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.set_channel">
+<span class="sig-name descname"><span class="pre">set_channel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drmin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drmax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.set_channel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.set_channel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set channel configuration</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>channel</strong> – channel value</p></li>
+<li><p><strong>freq</strong> – frequency</p></li>
+<li><p><strong>drmin</strong> – minimum data rate</p></li>
+<li><p><strong>drmax</strong> – maximum data rate</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>new channel configuration</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.set_counters">
+<span class="sig-name descname"><span class="pre">set_counters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">up</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">down</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.set_counters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.set_counters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set uplink and downlink counter values</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>up</strong> – uplink counter value</p></li>
+<li><p><strong>down</strong> – downlink counter value</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>set value for both counters</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.set_dr">
+<span class="sig-name descname"><span class="pre">set_dr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.set_dr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.set_dr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set data rate value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dr</strong> – data rate ranging from 0 to 15</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>new data rate value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.set_dr_band">
+<span class="sig-name descname"><span class="pre">set_dr_band</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">band</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.set_dr_band"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.set_dr_band" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set data rate scheme for current band (EU868)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>band</strong> – frequency band (currently only EU868 supported)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>data rate plan</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.set_duty_cycle">
+<span class="sig-name descname"><span class="pre">set_duty_cycle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_dc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.set_duty_cycle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.set_duty_cycle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set maximum duty cycle</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>max_dc</strong> – duty cycle</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>duty cycle value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.set_etsi_duty_cycle">
+<span class="sig-name descname"><span class="pre">set_etsi_duty_cycle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enabled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.set_etsi_duty_cycle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.set_etsi_duty_cycle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set ETSI defined duty cycle limitation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>enabled</strong> – enable/disable</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>duty cycle value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.set_id">
+<span class="sig-name descname"><span class="pre">set_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.set_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.set_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use to set the ID of the LoRaWAN module</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mode</strong> – ID to change DevAddr, DevEui, or AppEui</p></li>
+<li><p><strong>value</strong> – ID value</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>new ID</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.set_key">
+<span class="sig-name descname"><span class="pre">set_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.set_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.set_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set encryption keys</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> – type of key (NWKSKEY/APPSKEY/APPKEY)</p></li>
+<li><p><strong>value</strong> – key value</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>newly set key</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.set_mode">
+<span class="sig-name descname"><span class="pre">set_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.set_mode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.set_mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set LoRaWAN operational mode</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mode</strong> – operational mode (TEST, LWOTAA, LWABP)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>set mode</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.set_port">
+<span class="sig-name descname"><span class="pre">set_port</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.set_port"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.set_port" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set LoRaWAN port</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>port</strong> – numeric value from 0 to 255</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>new port</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.set_power">
+<span class="sig-name descname"><span class="pre">set_power</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">power</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.set_power"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.set_power" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set TX power</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>power</strong> – power value</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>set TX power</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.set_rep_limit">
+<span class="sig-name descname"><span class="pre">set_rep_limit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.set_rep_limit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.set_rep_limit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set maximum number of repetitions for unconfirmed messages</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>rep</strong> – number of repetitions</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>set number of repetitions</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.set_ret_limit">
+<span class="sig-name descname"><span class="pre">set_ret_limit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ret</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.set_ret_limit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.set_ret_limit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set maximum number of retransmissions for confirmed message</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ret</strong> – number of retransmissions</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>set number of retransmissions</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.set_rx2">
+<span class="sig-name descname"><span class="pre">set_rx2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">freq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.set_rx2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.set_rx2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set RXWIN2 configuration</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>freq</strong> – window frequency</p></li>
+<li><p><strong>dr</strong> – data rate</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>RXWIN2 new configuration</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.set_rx_delay">
+<span class="sig-name descname"><span class="pre">set_rx_delay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.set_rx_delay"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.set_rx_delay" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set RX windows delay</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>window</strong> – RX window (RX1/RX2/JRX1/JRX2)</p></li>
+<li><p><strong>delay</strong> – delay in ms</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>RX windows configuration</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modules.lora_E5.LoRaE5.test_at">
+<span class="sig-name descname"><span class="pre">test_at</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/modules/lora_E5.html#LoRaE5.test_at"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modules.lora_E5.LoRaE5.test_at" title="Permalink to this definition">¶</a></dt>
+<dd><p>Used to test if connection of module is OK. This is a dummy command just like other common AT modules</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>received data</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">BIOT LoRa E5</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Modules Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-modules.but_board">modules.but_board module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-modules.lora_E5">modules.lora_E5 module</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to BIOT LoRa E5’s documentation!</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Martin Stusek.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 6.1.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="_sources/modules.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
